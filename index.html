@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="calc">
+    <input class="calc-input" placeholder="0" readonly>
+    <div class="calc-number-buttons">
+      <button class="btn">0</button>
+      <button class="btn">1</button>
+      <button class="btn">2</button>
+      <button class="btn">3</button>
+      <button class="btn">4</button><br>
+      <button class="btn">5</button>
+      <button class="btn">6</button>
+      <button class="btn">7</button>
+      <button class="btn">8</button>
+      <button class="btn">9</button>
+    </div>
+    <div class="calc-operators">
+      <button class="btn-operators">+</button>
+      <button class="btn-operators">-</button>
+      <button class="btn-operators">*</button>
+      <button class="btn-operators">/</button>
+      <button class="btn-operators">%</button>
+    </div>
+    <div class="calc-special">
+      <button class="btn-special">.</button>
+
+    </div>
+    <button class="btn-eq">=</button>
+    <button class="btn-clear">C</button>
+    <button class="btn-backspace" value="<=" onkeydown="backspace()">
+      <- </button>
+  </div>
+  <script src="js/common.js"></script>
+</body>
+
+</html>
