@@ -16,6 +16,7 @@
 
   // Создание функции "operatorPushed" которая будет брать нажатую кнопку с оператором и выводить на display
   const operatorPushed = event => {
+    // Первым элементом не может быть оператор
     if (display.value[display.value.length - 1] == null) {
       return display.value;
     }
@@ -29,19 +30,13 @@
 
   // Создание функции "calculate" которая будет брать значение "display" и подсчитывать его. 
   const calculate = () => {
-    // Если display будет пустой, то при нажатии на кнопку (=), display будет обнуляться.
-    if (display.value === "") {
-      display.value === null;
+    // Если display будет пустой или в display будут значения "0/0" или результатом будет бесконечность(Infinity), то значение калькулятора обнулится.
+    if (display.value === "" || display.value == "0/0" || Math.round(eval(display.value) * 10) / 10 == Infinity) {
+      display.value = null;
       // Если при наатии кнопки (=) последний элемент display будет математическим оператором, то этот оператор вырезается и проводится подсчет.
     } else if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
       display.value = display.value.slice(0, -1);
       return display.value = Math.round(eval(display.value) * 10) / 10;
-      // Если результатом будет бесконечность(Infinity), то значение калькулятора обнулится.
-    } else if (Math.round(eval(display.value) * 10) / 10 == Infinity) {
-      display.value = null;
-      // Если в display будут значения "0/0", то значение калькулятора обнулится.
-    } else if (display.value == "0/0") {
-      display.value = null;
       // Если все проверки пройдены, то стандартно считаем и выдаём результат.
     } else {
       return display.value = Math.round(eval(display.value) * 10) / 10;
