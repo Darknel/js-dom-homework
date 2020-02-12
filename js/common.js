@@ -12,27 +12,34 @@
   // Создание функций
   // Создание функции "buttonPushed" которая будет брать нажатую кнопку с числом и выводить её в display
   const buttonPushed = event => display.value += event.target.innerText;
+  // Создание функции "operatorPushed" которая будет брать нажатую кнопку с оператором и если последний знак в display будет оператором, то он заменяется на новый и выводит его в display
   const operatorPushed = event => {
     if (display.value[display.value.length - 1] == null) {
       return display.value;
-    } else {
-      if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
-        display.value = display.value.slice(0, -1);
-        return display.value += event.target.innerText;
-      }
+    }
+    if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
+      display.value = display.value.slice(0, -1);
       return display.value += event.target.innerText;
     }
+    return display.value += event.target.innerText;
 
   };
-
-  // Создание функции "calculate" которая будет брать значение "display" и подсчитывать его. Если результатом будет бесконечность(Infinity), то значение калькулятора сбросится.
+  // Создание функции "calculate" которая будет брать значение "display" и подсчитывать его. 
   const calculate = () => {
+    // Если display будет пустой, то при нажатии на кнопку (=), display будет обнуляться.
     if (display.value === "") {
       display.value === null;
-    } else if (display.value == Infinity || display.value == isNaN) {
+      // Если при наатии кнопки (=) последний элемент display будет математическим оператором, то этот оператор вырезается и проводится подсчет.
+    } else if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
+      display.value = display.value.slice(0, -1);
+      return display.value = Math.round(eval(display.value) * 10) / 10;
+      // Если результатом будет бесконечность(Infinity), то значение калькулятора обнулится.
+    } else if (Math.round(eval(display.value) * 10) / 10 == Infinity) {
+      display.value = null;
+    } else if (display.value == "0/0") {
       display.value = null;
     } else {
-      display.value = Math.round(eval(display.value) * 10) / 10;
+      return display.value = Math.round(eval(display.value) * 10) / 10;
     }
     return display.value;
   };
