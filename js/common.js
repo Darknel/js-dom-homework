@@ -10,20 +10,23 @@
   const backSpace = document.querySelector(".btn-backspace");
 
   // Создание функций
+
   // Создание функции "buttonPushed" которая будет брать нажатую кнопку с числом и выводить её в display
   const buttonPushed = event => display.value += event.target.innerText;
-  // Создание функции "operatorPushed" которая будет брать нажатую кнопку с оператором и если последний знак в display будет оператором, то он заменяется на новый и выводит его в display
+
+  // Создание функции "operatorPushed" которая будет брать нажатую кнопку с оператором и выводить на display
   const operatorPushed = event => {
     if (display.value[display.value.length - 1] == null) {
       return display.value;
     }
+    // Eсли последний знак в display будет оператором, то он заменяется на новый и выводит его в display
     if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
       display.value = display.value.slice(0, -1);
       return display.value += event.target.innerText;
     }
     return display.value += event.target.innerText;
-
   };
+
   // Создание функции "calculate" которая будет брать значение "display" и подсчитывать его. 
   const calculate = () => {
     // Если display будет пустой, то при нажатии на кнопку (=), display будет обнуляться.
@@ -36,15 +39,19 @@
       // Если результатом будет бесконечность(Infinity), то значение калькулятора обнулится.
     } else if (Math.round(eval(display.value) * 10) / 10 == Infinity) {
       display.value = null;
+      // Если в display будут значения "0/0", то значение калькулятора обнулится.
     } else if (display.value == "0/0") {
       display.value = null;
+      // Если все проверки пройдены, то стандартно считаем и выдаём результат.
     } else {
       return display.value = Math.round(eval(display.value) * 10) / 10;
     }
     return display.value;
   };
+
   // Создание функции "clearDisplay" которая будет обнулять значение в "display"
   const clearDisplay = () => display.value = null;
+
   // Создание функции "onkeydown" которая работает с кнопкой backspace и кнопкой удалит последний символ. 
   const onkeydownBackspace = (e) => {
     if (e.keyCode === 8) {
@@ -54,40 +61,25 @@
   }
 
   // Добавление обработчиков addEventListeners
+
   // Мы берем все кнопки с цифрами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
   numberButtons.forEach(button => button.addEventListener("click", buttonPushed));
+
   // Мы берем все кнопки с операторами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
   operatorButtons.forEach(button => button.addEventListener('click', operatorPushed));
+
   // Мы берем все кнопки с специальными операторами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
   specialButtons.forEach(button => button.addEventListener('click', operatorPushed));
+
   // Мы берем кнопку подсчитать(=) и добавляем ей обработчик событий, который будет вызывать функцию "calculate"
   eq.addEventListener('click', calculate);
+
   // Мы берем кнопку очистить(С) и добавляем ей обработчик событий, который будет вызывать функцию "clearDisplay"
   clear.addEventListener('click', clearDisplay);
+
   // Мы берем кнопку очистить последний символ(<-) и добавляем ей обработчик событий, который будет вызывать функцию "backspace"
   backSpace.addEventListener('click', onkeydownBackspace);
+
   // Мы берем display и добавляем ему обработчик событий, который будет вызывать функцию "onkeydownBackspace" (удаление последнего символа по нажатию кнопки backspace на клавиатуре)
   display.addEventListener("keydown", onkeydownBackspace);
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* const checkPhoneKey = (key) => {
-  if ((key >= '0' && key <= '9') || key == '+' || key == '(' || key == ')' || key == '-' || key == 'ArrowLeft' || key == 'ArrowRight' || key == 'Delete' || key == 'Backspace') return key.addEventListener('click', buttonPushed);
-
-} */
-
-/* display.addEventListener('keydown', checkPhoneKey); */
