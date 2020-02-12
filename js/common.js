@@ -11,17 +11,25 @@
 
   // Создание функций
   // Создание функции "buttonPushed" которая будет брать нажатую кнопку с числом и выводить её в display
-  const buttonPushed = event => {
-    if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%") {
-      display.value[display.value.length - 1] = display.value[display.value.length - 1].replace(display.value[display.value.length - 1], event.target)
+  const buttonPushed = event => display.value += event.target.innerText;
+  const operatorPushed = event => {
+    if (display.value[display.value.length - 1] == null) {
+      return display.value;
+    } else {
+      if (display.value[display.value.length - 1] == "+" || display.value[display.value.length - 1] == "-" || display.value[display.value.length - 1] == "*" || display.value[display.value.length - 1] == "/" || display.value[display.value.length - 1] == "%" || display.value[display.value.length - 1] == ".") {
+        display.value = display.value.slice(0, -1);
+        return display.value += event.target.innerText;
+      }
+      return display.value += event.target.innerText;
     }
-    return display.value += event.target.innerText;
-  }
-  // Создание функции "evaluate" которая будет брать значение "display" и подсчитывать его. Если результатом будет бесконечность(Infinity), то значение калькулятора сбросится.
-  const evaluate = () => {
+
+  };
+
+  // Создание функции "calculate" которая будет брать значение "display" и подсчитывать его. Если результатом будет бесконечность(Infinity), то значение калькулятора сбросится.
+  const calculate = () => {
     if (display.value === "") {
       display.value === null;
-    } else if (display.value == Infinity) {
+    } else if (display.value == Infinity || display.value == isNaN) {
       display.value = null;
     } else {
       display.value = Math.round(eval(display.value) * 10) / 10;
@@ -30,7 +38,7 @@
   };
   // Создание функции "clearDisplay" которая будет обнулять значение в "display"
   const clearDisplay = () => display.value = null;
-  // Создание функции "onkeydown" которая работает с кнопкой backspace(так же как и backspace функция) 
+  // Создание функции "onkeydown" которая работает с кнопкой backspace и кнопкой удалит последний символ. 
   const onkeydownBackspace = (e) => {
     if (e.keyCode === 8) {
       let length = display.value.length;
@@ -42,11 +50,11 @@
   // Мы берем все кнопки с цифрами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
   numberButtons.forEach(button => button.addEventListener("click", buttonPushed));
   // Мы берем все кнопки с операторами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
-  operatorButtons.forEach(button => button.addEventListener('click', buttonPushed));
+  operatorButtons.forEach(button => button.addEventListener('click', operatorPushed));
   // Мы берем все кнопки с специальными операторами и добавляем им click обработчик событий и функцию под названием "buttonPushed()"
-  specialButtons.forEach(button => button.addEventListener('click', buttonPushed));
-  // Мы берем кнопку подсчитать(=) и добавляем ей обработчик событий, который будет вызывать функцию "evaluate"
-  eq.addEventListener('click', evaluate);
+  specialButtons.forEach(button => button.addEventListener('click', operatorPushed));
+  // Мы берем кнопку подсчитать(=) и добавляем ей обработчик событий, который будет вызывать функцию "calculate"
+  eq.addEventListener('click', calculate);
   // Мы берем кнопку очистить(С) и добавляем ей обработчик событий, который будет вызывать функцию "clearDisplay"
   clear.addEventListener('click', clearDisplay);
   // Мы берем кнопку очистить последний символ(<-) и добавляем ей обработчик событий, который будет вызывать функцию "backspace"
